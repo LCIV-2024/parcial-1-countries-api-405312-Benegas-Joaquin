@@ -16,8 +16,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class CountryServiceTest {
@@ -211,6 +210,6 @@ class CountryServiceTest {
         List<CountryDTO> countryDTOList = countryService.createCountryList(new CountryRequestDTO(2));
 
         assertEquals(2, countryDTOList.size());
-        assertEquals("Argentina", countryDTOList.get(0).getName());
+        verify(countryRepository, times(2)).save(any(CountryEntity.class));
     }
 }
