@@ -32,16 +32,24 @@ class CountryServiceTest {
     @Test
     void getAllCountries() {
         Map<String, Object> country1 = new HashMap<>();
-        country1.put("name", "Argentina");
-        Map<String, Object> country2 = new HashMap<>();
-        country2.put("name", "Brasil");
-        List<Map<String, Object>> countryList = List.of(country1, country2);
+        Map<String, String> countryName = new HashMap<>();
+        countryName.put("common", "Argentina");
+        country1.put("name", countryName);
+        country1.put("population", 10L);
+        country1.put("area", 10);
+        country1.put("region", "Americas");
+        Map<String, String> languages = new HashMap<>();
+        languages.put("ESP", "Spanish");
+        country1.put("languages", languages);
+        country1.put("cca3", "ARG");
+        country1.put("borders", new ArrayList<>());
+        List<Map<String, Object>> countryList = List.of(country1);
 
         when(restTemplate.getForObject("https://restcountries.com/v3.1/all", List.class))
                 .thenReturn(countryList);
 
         List<Country> countries = countryService.getAllCountries();
-        assertEquals(2, countries.size());
+        assertEquals(1, countries.size());
         assertEquals("Argentina", countries.get(0).getName());
     }
 
